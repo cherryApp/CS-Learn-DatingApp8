@@ -14,7 +14,7 @@ export class AccountService {
 
   private currentUserSource = new BehaviorSubject<User | null>(null);
 
-  public currentUser$ = this.currentUserSource.asObservable;
+  public currentUser$ = this.currentUserSource.asObservable();
 
   constructor() {
     const localUser = window.localStorage.getItem('user');
@@ -36,4 +36,18 @@ export class AccountService {
       }),
     );
   }
+
+  register(model: {username: string, password: string}): Observable<User> {
+    return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
+      map( (response: User) => {
+        const user = response;
+        if (user) {
+          window.localStorage.setItem('user', JSON.stringify(user));
+          this.currentUserSource.next(user);
+        }
+        return user;
+      }),
+    );
+  }
+
 }

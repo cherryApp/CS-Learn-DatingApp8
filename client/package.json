@@ -2,11 +2,13 @@
   "name": "client",
   "version": "0.0.0",
   "scripts": {
+    "preinstall": "npm run cert",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "cert": "cd ssl && mkcert localhost"
   },
   "private": true,
   "dependencies": {
